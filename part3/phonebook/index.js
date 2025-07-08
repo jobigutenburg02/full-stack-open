@@ -22,40 +22,40 @@ app.use(morgan(function (tokens, req, res) {
 
 app.get('/info', (req, res, next) => {
   Person.countDocuments({})
-  .then(count => {
-    const date = new Date()
-    res.send(`
+    .then(count => {
+      const date = new Date()
+      res.send(`
       <p>Phonebook has info for ${count} people</p>
       <p>${date}</p>
     `)
-  })
-  .catch(error => next(error))
+    })
+    .catch(error => next(error))
 })
 
 app.get('/api/persons', (req, res, next) => {
   Person.find({})
-  .then(persons => {
-    res.json(persons)
-  })
-  .catch(error => next(error))
+    .then(persons => {
+      res.json(persons)
+    })
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (req, res, next) => {
-  const id = req.params.id 
+  const id = req.params.id
   Person.findById(id)
-  .then(person => {
-    res.json(person)
-  })
-  .catch(error => next(error))
+    .then(person => {
+      res.json(person)
+    })
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
   const id = req.params.id
   Person.findByIdAndDelete(id)
-  .then(result => {
-    res.status(204).end()
-  })
-  .catch(error => next(error))
+    .then(() => {
+      res.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
@@ -67,21 +67,21 @@ app.put('/api/persons/:id', (req, res, next) => {
     { name, number },
     { new: true, runValidators: true, context: 'query' }
   )
-  .then(updatedPerson => {
-    if (!updatedPerson) {
-      return res.status(404).end()
-    }
-    res.json(updatedPerson)
-  })
-  .catch(error => next(error))
+    .then(updatedPerson => {
+      if (!updatedPerson) {
+        return res.status(404).end()
+      }
+      res.json(updatedPerson)
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/persons', async (req, res, next) => {
   const body = req.body
 
   if (!body.name || !body.number) {
-    return res.status(400).json({ 
-        error: `${!body.name ? 'name' : 'number'} missing` 
+    return res.status(400).json({
+      error: `${!body.name ? 'name' : 'number'} missing`
     })
   }
 
@@ -91,10 +91,10 @@ app.post('/api/persons', async (req, res, next) => {
   })
 
   person.save()
-  .then(savedPerson => {
-    res.json(savedPerson)
-  })
-  .catch(error => next(error))
+    .then(savedPerson => {
+      res.json(savedPerson)
+    })
+    .catch(error => next(error))
 })
 
 const errorHandler = (error, req, res, next) => {
@@ -104,7 +104,7 @@ const errorHandler = (error, req, res, next) => {
   } else if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message })
   }
-  
+
   next(error)
 }
 app.use(errorHandler)

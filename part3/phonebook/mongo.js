@@ -23,8 +23,8 @@ const personSchema = new mongoose.Schema({
     type: String,
     minLength: 8,
     validate: {
-    validator: function(v) {
-        return /\d{2,3}-\d+/.test(v);
+      validator: function(v) {
+        return /\d{2,3}-\d+/.test(v)
       },
       message: props => `${props.value} is not a valid phone number!`
     },
@@ -45,11 +45,11 @@ const Person = mongoose.model('Person', personSchema)
 const name = process.argv[3]
 const number = process.argv[4]
 const person = new Person({
-    "name": name, 
-    "number": number
+  'name': name,
+  'number': number
 })
 
-person.save().then(result => {
+person.save().then(() => {
   console.log(`added ${name} number ${number} to phonebook`)
 //   mongoose.connection.close()
 })
