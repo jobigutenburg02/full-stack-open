@@ -55,8 +55,8 @@ const App = () => {
         setNewNumber('')
       })
       .catch(error => {
-        console.log(error)
-        setErrorMessage(`Error updating ${existingPerson.name}`)
+        console.log(error.response.data.error)
+        setErrorMessage(`Error updating ${existingPerson.name}: ${error.response.data.error}`)
       })
       return;
     }
@@ -67,16 +67,16 @@ const App = () => {
     }
 
     PersonService.addPerson(newPerson)
-    .then(returnedPerson => {
-      console.log(returnedPerson)
-      setPersons(persons.concat(returnedPerson))
-      setSuccessMessage(`Added ${returnedPerson.name}`)
+    .then(createdPerson => {
+      console.log(createdPerson)
+      setPersons(persons.concat(createdPerson))
+      setSuccessMessage(`Added ${createdPerson.name}`)
       setNewName('')
       setNewNumber('')
     })
     .catch(error => {
-      console.log(error)
-      setErrorMessage(`Error adding ${newPerson.name}`)
+      console.log(error.response.data.error)
+      setErrorMessage(`Error adding ${newPerson.name}: ${error.response.data.error}`)
     })
   }
 
@@ -91,7 +91,7 @@ const App = () => {
       setPersons(persons.filter(person => person.id !== id))
     })
     .catch(error => {
-      console.log(error)
+      console.log(error.response.data.error)
       setErrorMessage(`Information of ${person.name} has already been removed from server`)
     })
   }
