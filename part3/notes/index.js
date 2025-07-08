@@ -1,10 +1,12 @@
 // const http = require('http')
 const express = require('express')
 const cors = require('cors')
+
 const app = express()
 
 app.use(express.json()) // to access incoming data using json-parser (when handling POST requests)
 app.use(cors()) // for allowing frontend to connect with backend (to bypass same-origin-policy)
+app.use(express.static('dist')) // to make Express show static content, the page index.html and the JavaScript, etc., it fetches
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
